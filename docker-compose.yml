@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: pharma_ai_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: pharma_user
+      POSTGRES_PASSWORD: pharma_password
+      POSTGRES_DB: pharma_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pharma_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pharma_user -d pharma_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pharma_pgdata:
